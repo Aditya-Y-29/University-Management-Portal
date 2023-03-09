@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Student.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JacocoReport Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.AIMS</a> &gt; <span class="el_source">Student.java</span></div><h1>Student.java</h1><pre class="source lang-java linenums">package com.AIMS;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Student {
+    String id;
+    String department;
+    String joiningYear;
+    String email;
+    StudentController studentController;
+
+<span class="fc" id="L17">    public Student(String id,String department,String joiningYear,String studentEmail)throws SQLException{</span>
+<span class="fc" id="L18">        this.email=studentEmail;</span>
+<span class="fc" id="L19">        this.department=department;</span>
+<span class="fc" id="L20">        this.id=id;</span>
+<span class="fc" id="L21">        this.joiningYear=joiningYear;</span>
+<span class="fc" id="L22">        studentController=new StudentController();</span>
+<span class="fc" id="L23">    }</span>
+    public boolean verify(Connection connection,String email,String password)throws SQLException{
+<span class="fc" id="L25">        System.out.println(email);</span>
+<span class="fc" id="L26">        System.out.println(password);</span>
+<span class="fc" id="L27">        Boolean loginVerdict=studentController.login(email,password,connection);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if(loginVerdict==false){</span>
+<span class="fc" id="L29">            System.out.println(&quot;hey&quot;);</span>
+<span class="fc" id="L30">            return false;</span>
+        }
+<span class="fc" id="L32">        this.email=email;</span>
+<span class="fc" id="L33">        String[] splitEmail = email.split(&quot;@&quot;);</span>
+<span class="fc" id="L34">        id=splitEmail[0].substring(6);</span>
+<span class="fc" id="L35">        department=splitEmail[0].substring(4,6);</span>
+<span class="fc" id="L36">        joiningYear=splitEmail[0].substring(0,4);</span>
+<span class="fc" id="L37">        return loginVerdict;</span>
+    }
+    public boolean utility(Connection connection) throws SQLException, IOException {
+<span class="fc" id="L40">        Scanner sc = new Scanner(System.in);</span>
+        while(true){
+<span class="fc" id="L42">            System.out.println(&quot;Choose from following actions----&quot;);</span>
+<span class="fc" id="L43">            System.out.println(&quot;1. Add a course.&quot;);</span>
+<span class="fc" id="L44">            System.out.println(&quot;2. Drop a course.&quot;);</span>
+<span class="fc" id="L45">            System.out.println(&quot;3. View course grade.&quot;);</span>
+<span class="fc" id="L46">            System.out.println(&quot;4. View all courses grade.&quot;);</span>
+<span class="fc" id="L47">            System.out.println(&quot;5. Get CGPA.&quot;);</span>
+<span class="fc" id="L48">            System.out.println(&quot;6. Get academic curriculum .&quot;);</span>
+<span class="fc" id="L49">            System.out.println(&quot;7. Get course Catalog.&quot;);</span>
+<span class="fc" id="L50">            System.out.println(&quot;8. Change Phone number.&quot;);</span>
+<span class="fc" id="L51">            System.out.println(&quot;9. Change Password.&quot;);</span>
+<span class="fc" id="L52">            System.out.println(&quot;10. Exit.&quot;);</span>
+
+            String userChoice;
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if(sc.hasNext()){</span>
+<span class="fc" id="L56">                userChoice=sc.nextLine();</span>
+            }
+            else{
+<span class="fc" id="L59">                userChoice=&quot;10&quot;;</span>
+            }
+<span class="fc" id="L61">            System.out.println(userChoice);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if(userChoice.trim().equals(&quot;1&quot;)){</span>
+<span class="fc" id="L63">                addCourseParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;2&quot;)){</span>
+<span class="fc" id="L66">                dropCourseParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;3&quot;)){</span>
+<span class="fc" id="L69">                viewCourseGradeParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;4&quot;)){</span>
+<span class="fc" id="L72">                viewAllCoursesGradeParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;5&quot;)){</span>
+<span class="fc" id="L75">                getCgpaParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;6&quot;)){</span>
+<span class="fc" id="L78">                getAcademicCurriculumParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;7&quot;)){</span>
+<span class="fc" id="L81">                getCourseCatalogParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;8&quot;)){</span>
+<span class="fc" id="L84">                changePhoneNoParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;9&quot;)){</span>
+<span class="fc" id="L87">                changePasswordParser(connection,email,sc);</span>
+            }
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;10&quot;)){</span>
+<span class="fc" id="L90">                System.out.println(&quot;You Succesfully Exicted&quot;);</span>
+<span class="fc" id="L91">                break;</span>
+            }
+            else{
+<span class="fc" id="L94">                System.out.println(&quot;Invalid Choice&quot;);</span>
+            }
+<span class="fc" id="L96">        }</span>
+<span class="fc" id="L97">        return true;</span>
+    }
+    public boolean addCourseParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L100">        int currPhase=Main.getCurrPhase();</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if(currPhase!=1){</span>
+<span class="fc" id="L102">            System.out.println(&quot;Action is not supported at this moment&quot;);</span>
+<span class="fc" id="L103">            return false;</span>
+        }
+<span class="fc" id="L105">        System.out.println(&quot;Enter the course id you want to add.&quot;);</span>
+<span class="fc" id="L106">        String courseId = sc.nextLine();</span>
+<span class="fc" id="L107">        String stuId=id;</span>
+<span class="fc" id="L108">        String stuJoiningYear=joiningYear;</span>
+<span class="fc" id="L109">        studentController.addCourse(connection,stuId,courseId,stuJoiningYear);</span>
+<span class="fc" id="L110">        return true;</span>
+    }
+    public boolean dropCourseParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L113">        int currPhase=Main.getCurrPhase();</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if(currPhase!=1){</span>
+<span class="fc" id="L115">            System.out.println(&quot;Action is not supported at this moment&quot;);</span>
+<span class="fc" id="L116">            return false;</span>
+        }
+<span class="fc" id="L118">        System.out.println(&quot;Enter the course id you want to drop.&quot;);</span>
+<span class="fc" id="L119">        String courseId = sc.nextLine();</span>
+<span class="fc" id="L120">        studentController.dropCourse(connection,id,courseId);</span>
+<span class="fc" id="L121">        return true;</span>
+    }
+    public String viewCourseGradeParser(Connection connection,Scanner sc)throws SQLException{
+<span class="fc" id="L124">        System.out.println(&quot;Enter course id for which you want to view grade.&quot;);</span>
+<span class="fc" id="L125">        String courseId = sc.nextLine();</span>
+<span class="fc" id="L126">        return studentController.viewCourseGrade(connection,id,courseId);</span>
+    }
+    public void viewAllCoursesGradeParser(Connection connection,Scanner sc) throws SQLException, IOException {
+<span class="fc" id="L129">        System.out.println(&quot;Here are all the grades.&quot;);</span>
+<span class="fc" id="L130">        studentController.viewAllCoursesGrade(connection,id);</span>
+<span class="fc" id="L131">    }</span>
+    public String getCgpaParser(Connection connection,Scanner sc) throws SQLException {
+<span class="fc" id="L133">        System.out.println(&quot;Here is your Cgpa.&quot;);</span>
+<span class="fc" id="L134">        return studentController.getCgpa(connection,id);</span>
+    }
+    public boolean getAcademicCurriculumParser(Connection connection,Scanner sc) throws SQLException,IOException {
+<span class="fc" id="L137">        System.out.println(&quot;Choose from the below options.&quot;);</span>
+<span class="fc" id="L138">        System.out.println(&quot;1. To view complete academic curriculum&quot;);</span>
+<span class="fc" id="L139">        System.out.println(&quot;2. To view your academic curriculum&quot;);</span>
+
+<span class="fc" id="L141">        int userChoice = sc.nextInt();</span>
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if(userChoice==1){</span>
+<span class="fc" id="L144">            studentController.viewCompleteAcademicCurriculum(connection);</span>
+        }
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        else if(userChoice==2){</span>
+<span class="fc" id="L147">            studentController.viewYourAcademicCurriculum(connection,department,joiningYear);</span>
+        }
+        else{
+<span class="fc" id="L150">            System.out.println(&quot;Invalid choice!!&quot;);</span>
+<span class="fc" id="L151">            return false;</span>
+        }
+<span class="fc" id="L153">        return true;</span>
+    }
+    public void getCourseCatalogParser(Connection connection,Scanner sc) throws SQLException {
+<span class="fc" id="L156">        System.out.println(&quot;Here is the course catalog.&quot;);</span>
+<span class="fc" id="L157">        StudentController.getCourseCatalog(connection);</span>
+<span class="fc" id="L158">    }</span>
+    public void changePhoneNoParser(Connection connection,Scanner sc)throws SQLException{
+<span class="fc" id="L160">        System.out.println(&quot;Please enter new phone no.&quot;);</span>
+<span class="fc" id="L161">        String newPhoneNo = sc.nextLine();</span>
+<span class="fc" id="L162">        studentController.changePhoneNumber(connection,newPhoneNo,id);</span>
+<span class="fc" id="L163">    }</span>
+    public void changePasswordParser(Connection connection,String email,Scanner sc) throws SQLException {
+<span class="fc" id="L165">        System.out.println(&quot;Please enter new password.&quot;);</span>
+<span class="fc" id="L166">        String newPassword = sc.nextLine();</span>
+<span class="fc" id="L167">        studentController.changePassword(connection,newPassword,email);</span>
+<span class="fc" id="L168">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

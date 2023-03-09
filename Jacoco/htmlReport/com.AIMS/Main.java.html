@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JacocoReport Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.AIMS</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package com.AIMS;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
+<span class="nc" id="L7">public class Main {</span>
+<span class="fc" id="L8">    private static int currYear=2023;</span>
+<span class="fc" id="L9">    private static int currSem=1;</span>
+<span class="fc" id="L10">    private static int currPhase=0;</span>
+
+    Connection connection;
+
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
+        // Establishing database connection.
+<span class="nc" id="L16">        DbConnect Db=new DbConnect();</span>
+<span class="nc" id="L17">        Connection connection=Db.connect();</span>
+
+        // Initialising dummy database.
+<span class="nc" id="L20">        initialisation(connection,Db);</span>
+
+        // Prompting user for input.
+<span class="nc" id="L23">        initialPrompt(connection);</span>
+<span class="nc" id="L24">    }</span>
+
+    public static boolean initialisation(Connection connection,DbConnect Db) throws SQLException, IOException {
+        // Initialising DB
+<span class="nc" id="L28">        initialisingDB(connection,Db);</span>
+<span class="nc" id="L29">        return true;</span>
+    }
+    public static boolean initialPrompt(Connection connection) throws SQLException,IOException{
+
+<span class="fc" id="L33">        Scanner sc = new Scanner(System.in);</span>
+
+<span class="fc" id="L35">        System.out.println(&quot;----------------Welcome To The Portal--------------&quot;);</span>
+<span class="fc" id="L36">        System.out.println(&quot;Who are you? 1.Student  2.Faculty  3.AcademicOffice 4.Quit&quot;);</span>
+
+<span class="fc" id="L38">        int userRole = sc.nextInt();</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if(userRole == 1) {</span>
+<span class="fc" id="L41">            studentPrompt(connection,sc);</span>
+        }
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        else if(userRole == 2) {</span>
+<span class="fc" id="L44">            facultyPrompt(connection,sc);</span>
+        }
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        else if(userRole == 3) {</span>
+<span class="fc" id="L47">            acadOfficePrompt(connection,sc);</span>
+        }
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        else if(userRole==4){</span>
+
+        } else {
+<span class="fc" id="L52">            System.out.println(&quot;Invalid Choice&quot;);</span>
+        }
+<span class="fc" id="L54">        return true;</span>
+    }
+    public static boolean initialisingDB(Connection connection, DbConnect db) throws SQLException, IOException {
+<span class="fc" id="L57">        CreateTable.createTables(connection,db);</span>
+<span class="fc" id="L58">        DatabaseInit.init(connection);</span>
+<span class="fc" id="L59">        return true;</span>
+    }
+    public static boolean studentPrompt(Connection connection,Scanner sc) throws SQLException, IOException {
+<span class="fc" id="L62">        System.out.println(&quot;--------Welcome Student-------&quot;);</span>
+<span class="fc" id="L63">        Boolean loginVerdict = false;</span>
+
+<span class="fc" id="L65">        int times = 3;</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        while (times &gt; 0) {</span>
+<span class="fc" id="L67">            Student student=new Student(&quot;1&quot;,&quot;CS&quot;,&quot;2020&quot;,&quot;2020CS1@iitrpr.ac.in&quot;);</span>
+
+<span class="fc" id="L69">            System.out.println(&quot;To login--&gt; Enter your email\n&quot;);</span>
+<span class="fc" id="L70">            String email=sc.nextLine();</span>
+<span class="fc" id="L71">            System.out.println(&quot;Enter password\n&quot;);</span>
+<span class="fc" id="L72">            String password=sc.nextLine();</span>
+
+<span class="fc" id="L74">            loginVerdict = student.verify(connection,email,password);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (loginVerdict == true) {</span>
+<span class="fc" id="L76">                System.out.println(&quot;Login Successful-----&quot;);</span>
+<span class="fc" id="L77">                student.utility(connection);</span>
+<span class="fc" id="L78">                return true;</span>
+            }
+<span class="fc" id="L80">            System.out.println(&quot;Wrong credentials&quot;);</span>
+<span class="fc" id="L81">            times--;</span>
+<span class="fc" id="L82">        }</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if(times==0){</span>
+<span class="fc" id="L84">            System.out.print(&quot;You entered wrong password for many times.....try again later!!&quot;);</span>
+        }
+<span class="fc" id="L86">        return false;</span>
+    }
+    public static boolean facultyPrompt(Connection connection,Scanner sc) throws SQLException,IOException{
+<span class="fc" id="L89">        System.out.println(&quot;--------Welcome Faculty-------&quot;);</span>
+<span class="fc" id="L90">        Boolean loginVerdict = false;</span>
+
+<span class="fc" id="L92">        int times = 3;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        while (times &gt; 0) {</span>
+<span class="fc" id="L94">            Faculty faculty=new Faculty(&quot;1&quot;,&quot;dummyD&quot;,&quot;dummyE&quot;);</span>
+
+<span class="fc" id="L96">            System.out.println(&quot;To login--&gt; Enter your email\n&quot;);</span>
+<span class="fc" id="L97">            String email=sc.nextLine();</span>
+<span class="fc" id="L98">            System.out.println(&quot;Enter password\n&quot;);</span>
+<span class="fc" id="L99">            String password=sc.nextLine();</span>
+
+<span class="fc" id="L101">            loginVerdict = faculty.verify(connection,email,password);</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (loginVerdict == true) {</span>
+<span class="fc" id="L103">                System.out.println(&quot;Login Successful-----&quot;);</span>
+<span class="fc" id="L104">                faculty.utility(connection);</span>
+<span class="fc" id="L105">                return true;</span>
+            }
+<span class="fc" id="L107">            System.out.println(&quot;Wrong credentials&quot;);</span>
+<span class="fc" id="L108">            times--;</span>
+<span class="fc" id="L109">        }</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if(times==0){</span>
+<span class="fc" id="L111">            System.out.print(&quot;You entered wrong password for many times.....try again later!!&quot;);</span>
+        }
+<span class="fc" id="L113">        return false;</span>
+    }
+    public static boolean acadOfficePrompt(Connection connection,Scanner sc) throws SQLException,IOException{
+<span class="fc" id="L116">        System.out.println(&quot;--------Welcome Academic Office-------&quot;);</span>
+<span class="fc" id="L117">        Boolean loginVerdict = false;</span>
+
+<span class="fc" id="L119">        int times = 3;</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        while (times &gt; 0) {</span>
+<span class="fc" id="L121">            AcademicOffice academicOffice=new AcademicOffice(&quot;dummyText&quot;);</span>
+
+<span class="fc" id="L123">            System.out.println(&quot;To login--&gt; Enter your email\n&quot;);</span>
+<span class="fc" id="L124">            String email=sc.nextLine();</span>
+<span class="fc" id="L125">            System.out.println(&quot;Enter password\n&quot;);</span>
+<span class="fc" id="L126">            String password=sc.nextLine();</span>
+
+<span class="fc" id="L128">            loginVerdict = academicOffice.verify(connection,email,password);</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if (loginVerdict == true) {</span>
+<span class="fc" id="L130">                System.out.println(&quot;Login Successful-----&quot;);</span>
+<span class="fc" id="L131">                academicOffice.utility(connection);</span>
+<span class="fc" id="L132">                return true;</span>
+            }
+<span class="fc" id="L134">            System.out.println(&quot;Wrong credentials&quot;);</span>
+<span class="fc" id="L135">            times--;</span>
+
+<span class="fc" id="L137">        }</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if(times==0){</span>
+<span class="fc" id="L139">            System.out.print(&quot;You entered wrong password for many times.....try again later!!&quot;);</span>
+        }
+<span class="fc" id="L141">        return false;</span>
+    }
+    public static int getCurrYear() {
+<span class="fc" id="L144">        return currYear;</span>
+    }
+    public static void setCurrYear(int year) {
+<span class="fc" id="L147">        currYear = year;</span>
+<span class="fc" id="L148">    }</span>
+    public static int getCurrSem() {
+<span class="fc" id="L150">        return currSem;</span>
+    }
+    public static void setCurrSem(int sem) {
+<span class="fc" id="L153">        currSem = sem;</span>
+<span class="fc" id="L154">    }</span>
+    public static int getCurrPhase() {
+<span class="fc" id="L156">        return currPhase;</span>
+    }
+    public static void setCurrPhase(int phase) {
+<span class="fc" id="L159">        currPhase = phase;</span>
+<span class="fc" id="L160">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
