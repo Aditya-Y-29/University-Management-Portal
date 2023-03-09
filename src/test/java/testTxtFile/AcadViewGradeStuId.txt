@@ -1,0 +1,6 @@
+year: semesterNo: courseId: ltpc: grade
+2020:2:CS101:5:B
+2021:1:CS102:5:A
+2021:2:CS201:5:A-
+2022:1:CS202:5:B
+2022:2:CS301:5:B-

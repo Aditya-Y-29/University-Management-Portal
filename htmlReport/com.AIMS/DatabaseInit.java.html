@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseInit.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JacocoReport Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.AIMS</a> &gt; <span class="el_source">DatabaseInit.java</span></div><h1>DatabaseInit.java</h1><pre class="source lang-java linenums">package com.AIMS;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+<span class="nc" id="L7">public class DatabaseInit</span>
+{
+    public static void init(Connection connection) throws SQLException, IOException {
+        Statement statement;
+<span class="fc" id="L11">        String insertAcademicOfficeUser = &quot;INSERT INTO academic_office&quot; +</span>
+                &quot; (name, email,phone_no) VALUES &quot; +
+                &quot; ('acadoffice','acadoffice@iitrpr.ac.in','0000000000');&quot;;
+
+<span class="fc" id="L15">        String insertAcademicOfficeCredentials = &quot;INSERT INTO academic_office_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('acadoffice@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L19">        statement=connection.createStatement();</span>
+<span class="fc" id="L20">        statement.executeUpdate(insertAcademicOfficeUser);</span>
+<span class="fc" id="L21">        statement.executeUpdate(insertAcademicOfficeCredentials);</span>
+
+<span class="fc" id="L23">        String insertStudent1Credentials = &quot;INSERT INTO student_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('2020CS1@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L27">        String insertStudent1 = &quot;INSERT INTO student &quot; +</span>
+                &quot; (id,name,email,phone_no,department,joining_year) VALUES &quot; +
+                &quot; ('1','stu1','2020CS1@iitrpr.ac.in','111','CS','2019');&quot;;
+
+<span class="fc" id="L31">        statement=connection.createStatement();</span>
+<span class="fc" id="L32">        statement.executeUpdate(insertStudent1);</span>
+<span class="fc" id="L33">        statement.executeUpdate(insertStudent1Credentials);</span>
+
+<span class="fc" id="L35">        String insertStudent2Credentials = &quot;INSERT INTO student_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('2020CS2@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L39">        String insertStudent2 = &quot;INSERT INTO student &quot; +</span>
+                &quot; (id,name,email,phone_no,department,joining_year) VALUES &quot; +
+                &quot; ('2','stu2','2020CS2@iitrpr.ac.in','111','CS','2020');&quot;;
+
+<span class="fc" id="L43">        statement=connection.createStatement();</span>
+<span class="fc" id="L44">        statement.executeUpdate(insertStudent2);</span>
+<span class="fc" id="L45">        statement.executeUpdate(insertStudent2Credentials);</span>
+
+<span class="fc" id="L47">        String insertStudent3Credentials = &quot;INSERT INTO student_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('2020CS3@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L51">        String insertStudent3 = &quot;INSERT INTO student &quot; +</span>
+                &quot; (id,name,email,phone_no,department,joining_year) VALUES &quot; +
+                &quot; ('3','stu3','2020CS3@iitrpr.ac.in','111','CS','2021');&quot;;
+
+<span class="fc" id="L55">        statement=connection.createStatement();</span>
+<span class="fc" id="L56">        statement.executeUpdate(insertStudent3);</span>
+<span class="fc" id="L57">        statement.executeUpdate(insertStudent3Credentials);</span>
+
+<span class="fc" id="L59">        String insertStudent4Credentials = &quot;INSERT INTO student_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('2020CS4@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L63">        String insertStudent4 = &quot;INSERT INTO student &quot; +</span>
+                &quot; (id,name,email,phone_no,department,joining_year) VALUES &quot; +
+                &quot; ('4','stu4','2020CS4@iitrpr.ac.in','111','CS','2022');&quot;;
+
+<span class="fc" id="L67">        statement=connection.createStatement();</span>
+<span class="fc" id="L68">        statement.executeUpdate(insertStudent4);</span>
+<span class="fc" id="L69">        statement.executeUpdate(insertStudent4Credentials);</span>
+
+<span class="fc" id="L71">        String insertStudent5Credentials = &quot;INSERT INTO student_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('2020CS5@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L75">        String insertStudent5 = &quot;INSERT INTO student &quot; +</span>
+                &quot; (id,name,email,phone_no,department,joining_year) VALUES &quot; +
+                &quot; ('5','stu5','2018CS5@iitrpr.ac.in','111','CS','2018');&quot;;
+
+<span class="fc" id="L79">        statement=connection.createStatement();</span>
+<span class="fc" id="L80">        statement.executeUpdate(insertStudent5);</span>
+<span class="fc" id="L81">        statement.executeUpdate(insertStudent5Credentials);</span>
+
+<span class="fc" id="L83">        String insertFaculty1Credentials = &quot;INSERT INTO faculty_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('facCS1@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L87">        String insertFaculty1 = &quot;INSERT INTO faculty &quot; +</span>
+                &quot; (id,name,email,phone_no,department) VALUES &quot; +
+                &quot; ('1','fac1','facCS1@iitrpr.ac.in','111','CS');&quot;;
+
+<span class="fc" id="L91">        statement=connection.createStatement();</span>
+<span class="fc" id="L92">        statement.executeUpdate(insertFaculty1);</span>
+<span class="fc" id="L93">        statement.executeUpdate(insertFaculty1Credentials);</span>
+
+<span class="fc" id="L95">        String insertFaculty2Credentials = &quot;INSERT INTO faculty_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('facCS2@iitrpr.ac.in','iitropar');&quot;;
+
+<span class="fc" id="L99">        String insertFaculty2 = &quot;INSERT INTO faculty &quot; +</span>
+                &quot; (id,name,email,phone_no,department) VALUES &quot; +
+                &quot; ('2','fac2','facCS2@iitrpr.ac.in','111','CS');&quot;;
+
+<span class="fc" id="L103">        statement=connection.createStatement();</span>
+<span class="fc" id="L104">        statement.executeUpdate(insertFaculty2);</span>
+<span class="fc" id="L105">        statement.executeUpdate(insertFaculty2Credentials);</span>
+
+
+<span class="fc" id="L108">        String insertCourseCatalog1Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS101','Discrete Math','5','CS','None');&quot;;
+<span class="fc" id="L111">        String insertCourseCatalog2Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS102','DLD','5','CS','None');&quot;;
+<span class="fc" id="L114">        String insertCourseCatalog3Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS201','DS','5','CS','None');&quot;;
+<span class="fc" id="L117">        String insertCourseCatalog4Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS202','Paradigms','5','CS','None');&quot;;
+<span class="fc" id="L120">        String insertCourseCatalog5Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS301','DB','5','CS','None');&quot;;
+<span class="fc" id="L123">        String insertCourseCatalog6Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS302','ADA','5','CS','CS201');&quot;;
+<span class="fc" id="L126">        String insertCourseCatalog7Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS401','BTP1','5','CS','None');&quot;;
+<span class="fc" id="L129">        String insertCourseCatalog8Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS402','BTP2','5','CS','BTP1');&quot;;
+<span class="fc" id="L132">        String insertCourseCatalog9Credentials = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('CS411','dummyElec','5','CS','None');&quot;;
+
+<span class="fc" id="L136">        statement=connection.createStatement();</span>
+<span class="fc" id="L137">        statement.executeUpdate(insertCourseCatalog1Credentials);</span>
+<span class="fc" id="L138">        statement.executeUpdate(insertCourseCatalog2Credentials);</span>
+<span class="fc" id="L139">        statement.executeUpdate(insertCourseCatalog3Credentials);</span>
+<span class="fc" id="L140">        statement.executeUpdate(insertCourseCatalog4Credentials);</span>
+<span class="fc" id="L141">        statement.executeUpdate(insertCourseCatalog5Credentials);</span>
+<span class="fc" id="L142">        statement.executeUpdate(insertCourseCatalog6Credentials);</span>
+<span class="fc" id="L143">        statement.executeUpdate(insertCourseCatalog7Credentials);</span>
+<span class="fc" id="L144">        statement.executeUpdate(insertCourseCatalog8Credentials);</span>
+<span class="fc" id="L145">        statement.executeUpdate(insertCourseCatalog9Credentials);</span>
+
+<span class="fc" id="L147">        String insertPassingCriteria2018 = &quot;INSERT INTO passing_criteria&quot; +</span>
+                &quot; (joining_year,minimum_credits) VALUES &quot; +
+                &quot; ('2018','5');&quot;;
+<span class="fc" id="L150">        String insertPassingCriteria2019 = &quot;INSERT INTO passing_criteria&quot; +</span>
+                &quot; (joining_year,minimum_credits) VALUES &quot; +
+                &quot; ('2019','40');&quot;;
+<span class="fc" id="L153">        String insertPassingCriteria2020 = &quot;INSERT INTO passing_criteria&quot; +</span>
+                &quot; (joining_year,minimum_credits) VALUES &quot; +
+                &quot; ('2020','40');&quot;;
+<span class="fc" id="L156">        String insertPassingCriteria2021 = &quot;INSERT INTO passing_criteria&quot; +</span>
+                &quot; (joining_year,minimum_credits) VALUES &quot; +
+                &quot; ('2021','40');&quot;;
+<span class="fc" id="L159">        String insertPassingCriteria2022 = &quot;INSERT INTO passing_criteria&quot; +</span>
+                &quot; (joining_year,minimum_credits) VALUES &quot; +
+                &quot; ('2022','40');&quot;;
+
+<span class="fc" id="L163">        statement=connection.createStatement();</span>
+<span class="fc" id="L164">        statement.executeUpdate(insertPassingCriteria2018);</span>
+<span class="fc" id="L165">        statement.executeUpdate(insertPassingCriteria2019);</span>
+<span class="fc" id="L166">        statement.executeUpdate(insertPassingCriteria2020);</span>
+<span class="fc" id="L167">        statement.executeUpdate(insertPassingCriteria2021);</span>
+<span class="fc" id="L168">        statement.executeUpdate(insertPassingCriteria2022);</span>
+
+<span class="fc" id="L170">        String insertAcademicCurriculum2018sem1 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2018','1','CS101','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L173">        String insertAcademicCurriculum2019sem1 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','1','CS101','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L176">        String insertAcademicCurriculum2019sem2 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','2','CS102','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L179">        String insertAcademicCurriculum2019sem3 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','3','CS201','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L182">        String insertAcademicCurriculum2019sem4 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','4','CS202','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L185">        String insertAcademicCurriculum2019sem5 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','5','CS301','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L188">        String insertAcademicCurriculum2019sem6 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','6','CS302','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L191">        String insertAcademicCurriculum2019sem7 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','7','CS401','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L194">        String insertAcademicCurriculum2019sem8 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2019','8','CS402','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L197">        String insertAcademicCurriculum2020sem1 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2020','1','CS101','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L200">        String insertAcademicCurriculum2020sem2 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2020','2','CS102','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L203">        String insertAcademicCurriculum2020sem3 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2020','3','CS201','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L206">        String insertAcademicCurriculum2020sem4 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2020','4','CS202','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L209">        String insertAcademicCurriculum2020sem5 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2020','5','CS301','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L212">        String insertAcademicCurriculum2020sem6 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2020','6','CS302','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L215">        String insertAcademicCurriculum2021sem1 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2021','1','CS101','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L218">        String insertAcademicCurriculum2021sem2 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2021','2','CS102','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L221">        String insertAcademicCurriculum2021sem3 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2021','3','CS201','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L224">        String insertAcademicCurriculum2021sem4 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2021','4','CS202','2',0,'M','CS','5');&quot;;
+<span class="fc" id="L227">        String insertAcademicCurriculum2022sem1 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2022','1','CS101','1',0,'M','CS','5');&quot;;
+<span class="fc" id="L230">        String insertAcademicCurriculum2022sem2 = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('2022','2','CS102','2',0,'M','CS','5');&quot;;
+
+<span class="fc" id="L234">        statement=connection.createStatement();</span>
+<span class="fc" id="L235">        statement.executeUpdate(insertAcademicCurriculum2018sem1);</span>
+<span class="fc" id="L236">        statement.executeUpdate(insertAcademicCurriculum2019sem1);</span>
+<span class="fc" id="L237">        statement.executeUpdate(insertAcademicCurriculum2019sem2);</span>
+<span class="fc" id="L238">        statement.executeUpdate(insertAcademicCurriculum2019sem3);</span>
+<span class="fc" id="L239">        statement.executeUpdate(insertAcademicCurriculum2019sem4);</span>
+<span class="fc" id="L240">        statement.executeUpdate(insertAcademicCurriculum2019sem5);</span>
+<span class="fc" id="L241">        statement.executeUpdate(insertAcademicCurriculum2019sem6);</span>
+<span class="fc" id="L242">        statement.executeUpdate(insertAcademicCurriculum2019sem7);</span>
+<span class="fc" id="L243">        statement.executeUpdate(insertAcademicCurriculum2019sem8);</span>
+<span class="fc" id="L244">        statement.executeUpdate(insertAcademicCurriculum2020sem1);</span>
+<span class="fc" id="L245">        statement.executeUpdate(insertAcademicCurriculum2020sem2);</span>
+<span class="fc" id="L246">        statement.executeUpdate(insertAcademicCurriculum2020sem3);</span>
+<span class="fc" id="L247">        statement.executeUpdate(insertAcademicCurriculum2020sem4);</span>
+<span class="fc" id="L248">        statement.executeUpdate(insertAcademicCurriculum2020sem5);</span>
+<span class="fc" id="L249">        statement.executeUpdate(insertAcademicCurriculum2020sem6);</span>
+<span class="fc" id="L250">        statement.executeUpdate(insertAcademicCurriculum2021sem1);</span>
+<span class="fc" id="L251">        statement.executeUpdate(insertAcademicCurriculum2021sem2);</span>
+<span class="fc" id="L252">        statement.executeUpdate(insertAcademicCurriculum2021sem3);</span>
+<span class="fc" id="L253">        statement.executeUpdate(insertAcademicCurriculum2021sem4);</span>
+<span class="fc" id="L254">        statement.executeUpdate(insertAcademicCurriculum2022sem1);</span>
+<span class="fc" id="L255">        statement.executeUpdate(insertAcademicCurriculum2022sem2);</span>
+
+<span class="fc" id="L257">        String insertEnrollmentStu5CS101 = &quot;INSERT INTO enrollment&quot; +</span>
+                &quot; (student_id,year,semester_no,course_id,l_t_p_c,grade) VALUES &quot; +
+                &quot; ('5','2018','2','CS101','5','B');&quot;;
+<span class="fc" id="L260">        String insertEnrollmentStu2CS101 = &quot;INSERT INTO enrollment&quot; +</span>
+                &quot; (student_id,year,semester_no,course_id,l_t_p_c,grade) VALUES &quot; +
+                &quot; ('2','2020','2','CS101','5','B');&quot;;
+<span class="fc" id="L263">        String insertEnrollmentStu2CS102 = &quot;INSERT INTO enrollment&quot; +</span>
+                &quot; (student_id,year,semester_no,course_id,l_t_p_c,grade) VALUES &quot; +
+                &quot; ('2','2021','1','CS102','5','A');&quot;;
+<span class="fc" id="L266">        String insertEnrollmentStu2CS201 = &quot;INSERT INTO enrollment&quot; +</span>
+                &quot; (student_id,year,semester_no,course_id,l_t_p_c,grade) VALUES &quot; +
+                &quot; ('2','2021','2','CS201','5','A-');&quot;;
+<span class="fc" id="L269">        String insertEnrollmentStu2CS202 = &quot;INSERT INTO enrollment&quot; +</span>
+                &quot; (student_id,year,semester_no,course_id,l_t_p_c,grade) VALUES &quot; +
+                &quot; ('2','2022','1','CS202','5','B');&quot;;
+<span class="fc" id="L272">        String insertEnrollmentStu2CS301 = &quot;INSERT INTO enrollment&quot; +</span>
+                &quot; (student_id,year,semester_no,course_id,l_t_p_c,grade) VALUES &quot; +
+                &quot; ('2','2022','2','CS301','5','B-');&quot;;
+
+<span class="fc" id="L276">        statement=connection.createStatement();</span>
+<span class="fc" id="L277">        statement.executeUpdate(insertEnrollmentStu5CS101);</span>
+<span class="fc" id="L278">        statement.executeUpdate(insertEnrollmentStu2CS101);</span>
+<span class="fc" id="L279">        statement.executeUpdate(insertEnrollmentStu2CS102);</span>
+<span class="fc" id="L280">        statement.executeUpdate(insertEnrollmentStu2CS201);</span>
+<span class="fc" id="L281">        statement.executeUpdate(insertEnrollmentStu2CS202);</span>
+<span class="fc" id="L282">        statement.executeUpdate(insertEnrollmentStu2CS301);</span>
+<span class="fc" id="L283">        String insertFacultyOfferCS101 = &quot;INSERT INTO faculty_offer&quot; +</span>
+                &quot; (faculty_id,year,semester_no,course_id) VALUES &quot; +
+                &quot; ('2','2023','1','CS102');&quot;;
+
+<span class="fc" id="L287">        statement=connection.createStatement();</span>
+<span class="fc" id="L288">        statement.executeUpdate(insertFacultyOfferCS101);</span>
+
+<span class="fc" id="L290">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

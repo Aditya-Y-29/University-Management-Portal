@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AcademicOfficeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JacocoReport Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.AIMS</a> &gt; <span class="el_source">AcademicOfficeController.java</span></div><h1>AcademicOfficeController.java</h1><pre class="source lang-java linenums">package com.AIMS;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.io.FileWriter;   // Import the FileWriter class
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+<span class="nc" id="L12">public class AcademicOfficeController {</span>
+    public static Boolean login(String email, String password, Connection connection) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L15">        ResultSet rs=null;</span>
+<span class="fc" id="L16">        String query=&quot; SELECT password &quot; +</span>
+                     &quot; From academic_office_login&quot; +
+                     &quot; WHERE email='&quot;+email+&quot;'&quot;;
+<span class="fc" id="L19">        statement= connection.createStatement();</span>
+<span class="fc" id="L20">        rs=statement.executeQuery(query);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        while(rs.next()){</span>
+<span class="fc" id="L22">            String actualPassword=rs.getString(&quot;password&quot;);</span>
+//                System.out.println(actualPassword);
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            if((actualPassword.trim()).equals(password.trim())){</span>
+<span class="fc" id="L25">                return true;</span>
+            }
+<span class="fc" id="L27">            return false;</span>
+        }
+<span class="fc" id="L29">        return false;</span>
+    }
+    public static void getAcademicCurriculum(Connection connection) throws SQLException,IOException{
+<span class="fc" id="L32">        int currSem=Main.getCurrSem();</span>
+<span class="fc" id="L33">        int currYear=Main.getCurrYear();</span>
+//        System.out.println(currSem);
+//        System.out.println(currYear);
+<span class="fc" id="L36">        int logicalSem=0;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if(currSem==1){</span>
+<span class="fc" id="L38">            logicalSem=1;</span>
+        }
+<span class="fc" id="L40">        String toWrite=&quot;JoiningYear: SemesterNo: CourseId: FacultyId: CgpaConstraint: CourseType: Department: Ltpc&quot;+&quot;\n&quot;;</span>
+        //displaying academic curriculum for all 4 year
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for(int i=0;i&lt;4;i++){</span>
+            Statement statement;
+<span class="fc" id="L44">            ResultSet rs=null;</span>
+<span class="fc" id="L45">            int joiningYear=currYear-i-logicalSem;</span>
+<span class="fc" id="L46">            int semesterNo=2*i+3-currSem;</span>
+<span class="fc" id="L47">            String query=&quot; SELECT * &quot; +</span>
+                    &quot; FROM academic_curriculum &quot;+
+                    &quot; WHERE joining_year='&quot;+joiningYear+&quot;' AND semester_no='&quot;+semesterNo+&quot;'&quot;;
+//                System.out.println(query);
+<span class="fc" id="L51">            statement= connection.createStatement();</span>
+<span class="fc" id="L52">            rs=statement.executeQuery(query);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            while(rs.next()){</span>
+<span class="fc" id="L54">                String courseId=rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L55">                String facultyId=rs.getString(&quot;faculty_id&quot;);</span>
+<span class="fc" id="L56">                String cgpaConstraint=rs.getString(&quot;cgpa_constraint&quot;);</span>
+<span class="fc" id="L57">                String courseType=rs.getString(&quot;course_type&quot;);</span>
+<span class="fc" id="L58">                String department=rs.getString(&quot;department&quot;);</span>
+<span class="fc" id="L59">                String ltpc=rs.getString(&quot;l_t_p_c&quot;);</span>
+<span class="fc" id="L60">                toWrite=toWrite+courseId+&quot;:&quot;+facultyId+&quot;:&quot;+cgpaConstraint+&quot;:&quot;+courseType+&quot;:&quot;+department+&quot;:&quot;+ltpc+&quot;\n&quot;;</span>
+<span class="fc" id="L61">            }</span>
+        }
+<span class="fc" id="L63">        String filePath=&quot;src/main/java/txtFiles/AcademicCurriculum.txt&quot;;</span>
+<span class="fc" id="L64">        writeToFile(filePath,toWrite);</span>
+<span class="fc" id="L65">    }</span>
+    public static void changePhoneNumber(Connection connection,String newPhoneNo,String currEmail) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L68">        String updatePhoneNo = &quot;UPDATE academic_office&quot; +</span>
+                &quot; SET phone_no= ' &quot; +newPhoneNo+&quot; ' &quot;+
+                &quot; WHERE email='&quot;+currEmail+&quot;'&quot;;
+
+//            System.out.println(updatePhoneNo);
+<span class="fc" id="L73">        statement=connection.createStatement();</span>
+<span class="fc" id="L74">        statement.executeUpdate(updatePhoneNo);</span>
+<span class="fc" id="L75">    }</span>
+    public static void changePassword(Connection connection,String newPassword,String currEmail) throws SQLException,IOException{
+<span class="fc" id="L77">        System.out.println(newPassword);</span>
+        Statement statement;
+<span class="fc" id="L79">        String updatePassword = &quot;UPDATE academic_office_login&quot; +</span>
+                &quot; SET password= ' &quot; +newPassword+&quot; ' &quot;+
+                &quot; WHERE email='&quot;+currEmail+&quot;'&quot;;
+
+//            System.out.println(updatePassword);
+<span class="fc" id="L84">        statement=connection.createStatement();</span>
+<span class="fc" id="L85">        statement.executeUpdate(updatePassword);</span>
+
+<span class="fc" id="L87">    }</span>
+    public static void getCourseCatalog(Connection connection) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L90">        ResultSet rs=null;</span>
+<span class="fc" id="L91">        String query=&quot; SELECT * &quot; +</span>
+                &quot; From course_catalog&quot; ;
+
+<span class="fc" id="L94">        statement= connection.createStatement();</span>
+<span class="fc" id="L95">        rs=statement.executeQuery(query);</span>
+<span class="fc" id="L96">        String toWrite=&quot;year: semesterNo: courseId: ltpc: grade&quot;+&quot;\n&quot;;</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        while(rs.next()){</span>
+<span class="fc" id="L98">            String courseId=rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L99">            String courseName=rs.getString(&quot;course_name&quot;);</span>
+<span class="fc" id="L100">            String ltpc=rs.getString(&quot;l_t_p_c&quot;);</span>
+<span class="fc" id="L101">            String department=rs.getString(&quot;department&quot;);</span>
+<span class="fc" id="L102">            String preRequisites=rs.getString(&quot;pre_requisite&quot;);</span>
+<span class="fc" id="L103">            toWrite=toWrite+courseId+&quot;:&quot;+courseName+&quot;:&quot;+ltpc+&quot;:&quot;+department+&quot;:&quot;+preRequisites+&quot;\n&quot;;</span>
+<span class="fc" id="L104">        }</span>
+<span class="fc" id="L105">        String filePath=&quot;src/main/java/txtFiles/CourseCatalog.txt&quot;;</span>
+<span class="fc" id="L106">        writeToFile(filePath,toWrite);</span>
+<span class="fc" id="L107">    }</span>
+    public static void addCourseInCourseCatalog(Connection connection,String[] parsedCourseEntry) throws SQLException,IOException{
+<span class="fc" id="L109">        String courseID=parsedCourseEntry[0];</span>
+<span class="fc" id="L110">        String courseName=parsedCourseEntry[1];</span>
+<span class="fc" id="L111">        String l_t_p_c=parsedCourseEntry[2];</span>
+<span class="fc" id="L112">        String department=parsedCourseEntry[3];</span>
+<span class="fc" id="L113">        String preRequisite=parsedCourseEntry[4];</span>
+
+        Statement statement;
+<span class="fc" id="L116">        String insertCourse = &quot;INSERT INTO course_catalog&quot; +</span>
+                &quot; (course_id,course_name,l_t_p_c,department,pre_requisite) VALUES &quot; +
+                &quot; ('&quot;+courseID+&quot;','&quot;+courseName+&quot;','&quot;+l_t_p_c+&quot;','&quot;+department+&quot;','&quot;+preRequisite+&quot;');&quot;;
+<span class="fc" id="L119">        System.out.println(insertCourse);</span>
+<span class="fc" id="L120">        statement=connection.createStatement();</span>
+<span class="fc" id="L121">        statement.executeUpdate(insertCourse);</span>
+<span class="fc" id="L122">    }</span>
+    public static void removeCourseInCourseCatalog(Connection connection,String courseId) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L125">        String removeCourse = &quot;DELETE FROM course_catalog&quot; +</span>
+                &quot; WHERE course_id= '&quot;+courseId+&quot;'&quot;;
+
+//            System.out.println(removeCourse);
+<span class="fc" id="L129">        statement=connection.createStatement();</span>
+<span class="fc" id="L130">        statement.executeUpdate(removeCourse);</span>
+
+<span class="fc" id="L132">    }</span>
+    public static void setPassingCriteria(Connection connection,String joiningYear,String minimumCredits) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L135">        String insertPassingCriteria = &quot;INSERT INTO passing_criteria&quot; +</span>
+                &quot; (joining_year,minimum_credits) VALUES &quot; +
+                &quot; ('&quot;+joiningYear+&quot;','&quot;+minimumCredits+&quot;');&quot;;
+
+//            System.out.println(insertPassingCriteria);
+<span class="fc" id="L140">        statement=connection.createStatement();</span>
+<span class="fc" id="L141">        statement.executeUpdate(insertPassingCriteria);</span>
+<span class="fc" id="L142">    }</span>
+    public static int getPassingCriteria(Connection connection,String joiningYear) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L145">        ResultSet rs=null;</span>
+<span class="fc" id="L146">        String query=&quot; SELECT * &quot; +</span>
+                &quot; FROM passing_criteria &quot;+
+                &quot; WHERE joining_year='&quot;+joiningYear+&quot;'&quot;;
+<span class="fc" id="L149">        statement= connection.createStatement();</span>
+<span class="fc" id="L150">        rs=statement.executeQuery(query);</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        while(rs.next()){</span>
+<span class="fc" id="L152">            String minimumCredit=rs.getString(&quot;minimum_credits&quot;);</span>
+<span class="fc" id="L153">            return Integer.parseInt(minimumCredit);</span>
+        }
+<span class="nc" id="L155">        return 1000;</span>
+    }
+    public static void setAcademicCurriculum(Connection connection,String[] parsedCourseEntry) throws SQLException,IOException{
+<span class="fc" id="L158">        String joiningYear=parsedCourseEntry[0];</span>
+<span class="fc" id="L159">        String semesterNo=parsedCourseEntry[1];</span>
+<span class="fc" id="L160">        String courseId=parsedCourseEntry[2];</span>
+<span class="fc" id="L161">        String facultyId=parsedCourseEntry[3];</span>
+<span class="fc" id="L162">        String cgpaConstraint=parsedCourseEntry[4];</span>
+<span class="fc" id="L163">        String courseType=parsedCourseEntry[5];</span>
+<span class="fc" id="L164">        String department=parsedCourseEntry[6];</span>
+<span class="fc" id="L165">        String ltpc=parsedCourseEntry[7];</span>
+
+        Statement statement;
+<span class="fc" id="L168">        String insertAcademicCurriculum = &quot;INSERT INTO academic_curriculum&quot; +</span>
+                &quot; (joining_year,semester_no,course_id,faculty_id,cgpa_constraint,course_type,department,l_t_p_c) VALUES &quot; +
+                &quot; ('&quot;+joiningYear+&quot;','&quot;+semesterNo+&quot;','&quot;+courseId+&quot;','&quot;+facultyId+&quot;','&quot;+cgpaConstraint+&quot;','&quot;+courseType+&quot;','&quot;+department+&quot;','&quot;+ltpc+&quot;');&quot;;
+//            System.out.println(insertAcademicCurriculum);
+<span class="fc" id="L172">        statement=connection.createStatement();</span>
+<span class="fc" id="L173">        statement.executeUpdate(insertAcademicCurriculum);</span>
+<span class="fc" id="L174">    }</span>
+    public static void addStudent(Connection connection, String[] parsedStudentEntry,int studentNum) throws SQLException,IOException{
+<span class="fc" id="L176">        String name=parsedStudentEntry[0];</span>
+<span class="fc" id="L177">        String phoneNo=parsedStudentEntry[1];</span>
+<span class="fc" id="L178">        String department=parsedStudentEntry[2];</span>
+<span class="fc" id="L179">        String joiningYear=parsedStudentEntry[3];</span>
+<span class="fc" id="L180">        String email=joiningYear+department+Integer.toString(studentNum)+&quot;@iitrpr.ac.in&quot;;</span>
+//        System.out.println(email);
+        Statement statement;
+<span class="fc" id="L183">        String insertStudent = &quot;INSERT INTO student&quot; +</span>
+                &quot; (id,name,email,phone_no,department,joining_year) VALUES &quot; +
+                &quot; ('&quot;+studentNum+&quot;','&quot;+name+&quot;','&quot;+email+&quot;','&quot;+phoneNo+&quot;','&quot;+department+&quot;','&quot;+joiningYear+&quot;');&quot;;
+<span class="fc" id="L186">        System.out.println(insertStudent);</span>
+<span class="fc" id="L187">        statement=connection.createStatement();</span>
+<span class="fc" id="L188">        statement.executeUpdate(insertStudent);</span>
+
+<span class="fc" id="L190">        String insertStudentCredentials = &quot;INSERT INTO student_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('&quot;+email+&quot;','iitropar');&quot;;
+
+//            System.out.println(insertStudentCredentials);
+<span class="fc" id="L195">        statement=connection.createStatement();</span>
+<span class="fc" id="L196">        statement.executeUpdate(insertStudentCredentials);</span>
+
+<span class="fc" id="L198">    }</span>
+    public static void addFaculty(Connection connection,String[] parsedFacultyEntry,int facultyNum) throws SQLException,IOException{
+<span class="fc" id="L200">        String name=parsedFacultyEntry[0];</span>
+<span class="fc" id="L201">        String phoneNo=parsedFacultyEntry[1];</span>
+<span class="fc" id="L202">        String department=parsedFacultyEntry[2];</span>
+<span class="fc" id="L203">        String email=name+department+Integer.toString(facultyNum)+&quot;@iitrpr.ac.in&quot;;</span>
+//        System.out.println(email);
+        Statement statement;
+<span class="fc" id="L206">        String insertFaculty = &quot;INSERT INTO faculty&quot; +</span>
+                &quot; (id,name,email,phone_no,department) VALUES &quot; +
+                &quot; ('&quot;+facultyNum+&quot;','&quot;+name+&quot;','&quot;+email+&quot;','&quot;+phoneNo+&quot;','&quot;+department+&quot;');&quot;;
+//            System.out.println(insertFaculty);
+<span class="fc" id="L210">        statement=connection.createStatement();</span>
+<span class="fc" id="L211">        statement.executeUpdate(insertFaculty);</span>
+
+<span class="fc" id="L213">        String insertFacultyCredentials = &quot;INSERT INTO faculty_login&quot; +</span>
+                &quot; (email, password) VALUES &quot; +
+                &quot; ('&quot;+email+&quot;','iitropar');&quot;;
+
+//            System.out.println(insertFacultyCredentials);
+<span class="fc" id="L218">        statement=connection.createStatement();</span>
+<span class="fc" id="L219">        statement.executeUpdate(insertFacultyCredentials);</span>
+
+<span class="fc" id="L221">    }</span>
+    public static void writeToFile(String fileName,String toWrite) throws SQLException,IOException{
+<span class="fc" id="L223">        FileWriter fileWriter = new FileWriter(fileName);</span>
+<span class="fc" id="L224">        fileWriter.write(toWrite);</span>
+<span class="fc" id="L225">        fileWriter.flush();</span>
+<span class="fc" id="L226">        fileWriter.close();</span>
+<span class="fc" id="L227">    }</span>
+    public static void getGradesByStudentId(Connection connection,String studentId) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L230">        ResultSet rs=null;</span>
+
+<span class="fc" id="L232">        String query=&quot; SELECT * &quot; +</span>
+                &quot; From enrollment &quot;+
+                &quot; WHERE student_id='&quot;+studentId+&quot;'&quot;;
+
+<span class="fc" id="L236">        statement= connection.createStatement();</span>
+<span class="fc" id="L237">        rs=statement.executeQuery(query);</span>
+<span class="fc" id="L238">        String toWrite=&quot;year: semesterNo: courseId: ltpc: grade&quot;+&quot;\n&quot;;</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">        while(rs.next()){</span>
+<span class="fc" id="L240">            String year=rs.getString(&quot;year&quot;);</span>
+<span class="fc" id="L241">            String semesterNo=rs.getString(&quot;semester_no&quot;);</span>
+<span class="fc" id="L242">            String courseId=rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L243">            String ltpc=rs.getString(&quot;l_t_p_c&quot;);</span>
+<span class="fc" id="L244">            String grade=rs.getString(&quot;grade&quot;);</span>
+<span class="fc" id="L245">            toWrite=toWrite+year+&quot;:&quot;+semesterNo+&quot;:&quot;+courseId+&quot;:&quot;+ltpc+&quot;:&quot;+grade+&quot;\n&quot;;</span>
+<span class="fc" id="L246">        }</span>
+<span class="fc" id="L247">        String filePath=&quot;src/main/java/txtFiles/AcadViewGradeStuId.txt&quot;;</span>
+<span class="fc" id="L248">        writeToFile(filePath,toWrite);</span>
+<span class="fc" id="L249">    }</span>
+    public static void getGradesByCourseId(Connection connection,String courseId,String year,String sem) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L252">        ResultSet rs=null;</span>
+<span class="fc" id="L253">        String query=&quot; SELECT * &quot; +</span>
+                &quot; From enrollment &quot;+
+                &quot; WHERE course_id='&quot;+courseId+&quot;' AND year='&quot;+year+&quot;' AND semester_no='&quot;+sem+&quot;'&quot;;
+
+<span class="fc" id="L257">        statement= connection.createStatement();</span>
+<span class="fc" id="L258">        rs=statement.executeQuery(query);</span>
+<span class="fc" id="L259">        String toWrite=&quot;studentId: grade&quot;+&quot;\n&quot;;</span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">        while(rs.next()){</span>
+<span class="fc" id="L261">            String studentId=rs.getString(&quot;student_id&quot;);</span>
+<span class="fc" id="L262">            String grade=rs.getString(&quot;grade&quot;);</span>
+<span class="fc" id="L263">            toWrite=toWrite+studentId+&quot;:&quot;+grade+&quot;\n&quot;;</span>
+<span class="fc" id="L264">            String filePath=&quot;src/main/java/txtFiles/AcadViewGradeCourseId.txt&quot;;</span>
+<span class="fc" id="L265">            writeToFile(filePath,toWrite);</span>
+<span class="fc" id="L266">        }</span>
+<span class="fc" id="L267">    }</span>
+    public static boolean checkAllMandatoryCourses(Connection connection,String studentId,int joiningYear,String department) throws SQLException,IOException{
+<span class="fc" id="L269">        int currYear=Main.getCurrYear();</span>
+<span class="fc" id="L270">        int currSem=Main.getCurrSem();</span>
+<span class="pc bpc" id="L271" title="3 of 6 branches missed.">        if((currYear-joiningYear&lt;=3)||(currYear-joiningYear==4&amp;&amp;currSem==1)){</span>
+<span class="fc" id="L272">            System.out.println(&quot;Cannot generate transcript before 4 years of joining&quot;);</span>
+<span class="fc" id="L273">            return false;</span>
+        }
+        else{
+<span class="fc bfc" id="L276" title="All 2 branches covered.">            for(int semesterNo=1;semesterNo&lt;=8;semesterNo++){</span>
+                Statement statement;
+<span class="fc" id="L278">                ResultSet rs=null;</span>
+<span class="fc" id="L279">                String query=&quot; SELECT * &quot; +</span>
+                        &quot; FROM academic_curriculum &quot;+
+                        &quot; WHERE joining_year='&quot;+joiningYear+&quot;' AND department='&quot;+department+&quot;' AND semester_no='&quot;+semesterNo+&quot;' AND course_type='M'&quot;;
+
+//                    System.out.println(query);
+<span class="fc" id="L284">                statement= connection.createStatement();</span>
+<span class="fc" id="L285">                rs=statement.executeQuery(query);</span>
+//                    System.out.println(&quot;CourseId: FacultyId: CgpaConstraint: CourseType: Ltpc&quot;);
+<span class="fc bfc" id="L287" title="All 2 branches covered.">                while(rs.next()) {</span>
+<span class="fc" id="L288">                    String courseId = rs.getString(&quot;course_id&quot;);</span>
+                    Statement innerStatement;
+<span class="fc" id="L290">                    ResultSet innerRs = null;</span>
+<span class="fc" id="L291">                    String innerQuery = &quot; SELECT * &quot; +</span>
+                            &quot; From enrollment &quot; +
+                            &quot; WHERE student_id='&quot; + studentId + &quot;' AND course_id='&quot; + courseId + &quot;'&quot;;
+//                            System.out.println(innerQuery);
+<span class="fc" id="L295">                    innerStatement = connection.createStatement();</span>
+<span class="fc" id="L296">                    innerRs = innerStatement.executeQuery(innerQuery);</span>
+<span class="fc" id="L297">                    boolean passed = false;</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">                    while (innerRs.next()) {</span>
+<span class="fc" id="L299">                        String grade = innerRs.getString(&quot;grade&quot;);</span>
+<span class="pc bpc" id="L300" title="1 of 2 branches missed.">                        if (StudentController.gradeValue(grade) &gt; 0) {</span>
+<span class="fc" id="L301">                            passed = true;</span>
+<span class="fc" id="L302">                            break;</span>
+                        }
+<span class="nc" id="L304">                    }</span>
+<span class="pc bpc" id="L305" title="1 of 2 branches missed.">                    if (passed == false) {</span>
+<span class="nc" id="L306">                        return false;</span>
+                    }
+<span class="fc" id="L308">                }</span>
+            }
+<span class="fc" id="L310">            return true;</span>
+        }
+    }
+    public static boolean checkMinimumCredit(Connection connection,String studentId,String studentEmail) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L315">        ResultSet rs=null;</span>
+<span class="fc" id="L316">        int totalCredits=0;</span>
+<span class="fc" id="L317">        String query=&quot; SELECT * &quot; +</span>
+                &quot; FROM enrollment &quot;+
+                &quot; WHERE student_id='&quot;+studentId+&quot;'&quot;;
+
+<span class="fc" id="L321">        statement= connection.createStatement();</span>
+<span class="fc" id="L322">        rs=statement.executeQuery(query);</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">        while(rs.next()){</span>
+<span class="fc" id="L324">            String courseId=rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L325">            String grade=rs.getString(&quot;grade&quot;);</span>
+<span class="fc" id="L326">            double ltpc=StudentController.getLtpc(connection,courseId);</span>
+<span class="fc" id="L327">            int gradeObtained=StudentController.gradeValue(grade);</span>
+<span class="pc bpc" id="L328" title="1 of 2 branches missed.">            if(gradeObtained!=0) {</span>
+<span class="fc" id="L329">                totalCredits += ltpc;</span>
+            }
+<span class="fc" id="L331">        }</span>
+<span class="fc" id="L332">        String joiningYear=studentEmail.substring(0,4);</span>
+<span class="fc" id="L333">        int minimumCredits=getPassingCriteria(connection,joiningYear);</span>
+<span class="fc bfc" id="L334" title="All 2 branches covered.">        if(totalCredits&gt;=minimumCredits){</span>
+<span class="fc" id="L335">            return true;</span>
+        }
+<span class="fc" id="L337">        return false;</span>
+    }
+    public static String getStudentEmailByStudentId(Connection connection,String studentId) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L341">        ResultSet rs=null;</span>
+<span class="fc" id="L342">        String query=&quot; SELECT * &quot; +</span>
+                &quot; From student&quot; +
+                &quot; WHERE id='&quot;+studentId+&quot;'&quot;;
+<span class="fc" id="L345">        statement= connection.createStatement();</span>
+<span class="fc" id="L346">        rs=statement.executeQuery(query);</span>
+<span class="pc bpc" id="L347" title="1 of 2 branches missed.">        while(rs.next()){</span>
+<span class="fc" id="L348">            String email=rs.getString(&quot;email&quot;);</span>
+<span class="fc" id="L349">            return email;</span>
+        }
+<span class="nc" id="L351">        return &quot;&quot;;</span>
+    }
+    public static String getStudentNameByStudentId(Connection connection,String studentId)throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L355">        ResultSet rs=null;</span>
+<span class="fc" id="L356">        String query=&quot; SELECT * &quot; +</span>
+                &quot; From student&quot; +
+                &quot; WHERE id='&quot;+studentId+&quot;'&quot;;
+<span class="fc" id="L359">        statement= connection.createStatement();</span>
+<span class="fc" id="L360">        rs=statement.executeQuery(query);</span>
+<span class="pc bpc" id="L361" title="1 of 2 branches missed.">        while(rs.next()){</span>
+<span class="fc" id="L362">            String email=rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L363">            return email;</span>
+        }
+<span class="nc" id="L365">        String empty=&quot;&quot;;</span>
+<span class="nc" id="L366">        return empty;</span>
+    }
+    public static void writeGradeToFile(Connection connection,String studentId,FileWriter myWriter) throws SQLException,IOException{
+        Statement statement;
+<span class="fc" id="L370">        ResultSet rs=null;</span>
+<span class="fc" id="L371">        String query=&quot; SELECT * &quot; +</span>
+                &quot; From enrollment &quot;+
+                &quot; WHERE student_id='&quot;+studentId+&quot;'&quot;;
+
+<span class="fc" id="L375">        statement= connection.createStatement();</span>
+<span class="fc" id="L376">        rs=statement.executeQuery(query);</span>
+<span class="fc" id="L377">        System.out.println(&quot;year: semesterNo: courseId: ltpc: grade&quot;);</span>
+<span class="fc bfc" id="L378" title="All 2 branches covered.">        while(rs.next()){</span>
+<span class="fc" id="L379">            String year=rs.getString(&quot;year&quot;);</span>
+<span class="fc" id="L380">            String semesterNo=rs.getString(&quot;semester_no&quot;);</span>
+<span class="fc" id="L381">            String courseId=rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L382">            String ltpc=rs.getString(&quot;l_t_p_c&quot;);</span>
+<span class="fc" id="L383">            String grade=rs.getString(&quot;grade&quot;);</span>
+<span class="fc" id="L384">            myWriter.write(year+&quot;:&quot;+semesterNo+&quot;:&quot;+courseId+&quot;:&quot;+ltpc+&quot;:&quot;+grade+&quot;\n&quot;);</span>
+<span class="fc" id="L385">        }</span>
+<span class="fc" id="L386">    }</span>
+    public static void getTranscriptByStudentId(Connection connection,String studentId) throws SQLException,IOException {
+<span class="fc" id="L388">        String studentEmail=getStudentEmailByStudentId(connection,studentId);</span>
+<span class="fc" id="L389">        System.out.println(studentEmail);</span>
+<span class="fc" id="L390">        String studentName=getStudentNameByStudentId(connection,studentId);</span>
+<span class="fc" id="L391">        System.out.println(studentName);</span>
+<span class="fc" id="L392">        String department=studentEmail.substring(4,6);</span>
+<span class="fc" id="L393">        int joiningYear=Integer.parseInt(studentEmail.substring(0,4));</span>
+<span class="fc" id="L394">        Boolean allCoursesDone=checkAllMandatoryCourses(connection,studentId,joiningYear,department);</span>
+<span class="fc" id="L395">        System.out.println(allCoursesDone);</span>
+<span class="fc" id="L396">        Boolean minimumCredit=checkMinimumCredit(connection,studentId,studentEmail);</span>
+<span class="pc bpc" id="L397" title="1 of 4 branches missed.">        if(minimumCredit&amp;&amp;allCoursesDone){</span>
+<span class="fc" id="L398">            FileWriter myWriter = new FileWriter(&quot;src/main/java/txtFiles/GeneratedTranscript.txt&quot;);</span>
+<span class="fc" id="L399">            myWriter.write(&quot;Student name: &quot;+studentName+&quot;\n&quot;);</span>
+<span class="fc" id="L400">            System.out.println(&quot;Student Id: &quot;+studentId+&quot;\n&quot;);</span>
+<span class="fc" id="L401">            myWriter.write(&quot;Joining year: &quot;+joiningYear+&quot;\n&quot;);</span>
+<span class="fc" id="L402">            myWriter.write(&quot;Department: &quot;+department+&quot;\n&quot;);</span>
+<span class="fc" id="L403">            writeGradeToFile(connection,studentId,myWriter);</span>
+<span class="fc" id="L404">            myWriter.flush();</span>
+<span class="fc" id="L405">            myWriter.close();</span>
+<span class="fc" id="L406">        }</span>
+        else{
+<span class="fc" id="L408">            System.out.println(&quot;Criteria for getting transcript not satisfied&quot;);</span>
+        }
+<span class="fc" id="L410">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

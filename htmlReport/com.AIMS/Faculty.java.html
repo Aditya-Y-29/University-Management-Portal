@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Faculty.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JacocoReport Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.AIMS</a> &gt; <span class="el_source">Faculty.java</span></div><h1>Faculty.java</h1><pre class="source lang-java linenums">package com.AIMS;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Scanner;
+import java.io.*;
+public class Faculty {
+    private String facultyId;
+    private String facultyDepartment;
+    private String facultyEmail;
+<span class="fc" id="L11">    Faculty(String facultyId,String facultyDepartment,String facultyEmail) throws SQLException {</span>
+<span class="fc" id="L12">        this.facultyId=facultyId;</span>
+<span class="fc" id="L13">        this.facultyDepartment=facultyDepartment;</span>
+<span class="fc" id="L14">        this.facultyEmail=facultyEmail;</span>
+<span class="fc" id="L15">    }</span>
+    public boolean verify(Connection connection,String email,String password) throws SQLException{
+<span class="fc" id="L17">        Boolean loginVerdict=FacultyController.login(email,password,connection);</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if(loginVerdict==false){</span>
+<span class="fc" id="L19">            return false;</span>
+        }
+<span class="fc" id="L21">        facultyEmail=email;</span>
+<span class="fc" id="L22">        String[] splitEmail = email.split(&quot;@&quot;);</span>
+<span class="fc" id="L23">        System.out.println(splitEmail[0]);</span>
+<span class="fc" id="L24">        int firstNumberIndex=-1;</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        for(int i=0;i&lt;(splitEmail[0]).length();i++){</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if(Character.isDigit(splitEmail[0].charAt(i))==true){</span>
+<span class="fc" id="L27">                firstNumberIndex=i;</span>
+<span class="fc" id="L28">                break;</span>
+            }
+        }
+<span class="fc" id="L31">        facultyId=splitEmail[0].substring(firstNumberIndex);</span>
+<span class="fc" id="L32">        facultyDepartment=splitEmail[0].substring(firstNumberIndex-2,firstNumberIndex);</span>
+<span class="fc" id="L33">        return loginVerdict;</span>
+    }
+    public boolean utility(Connection connection) throws SQLException, IOException {
+<span class="fc" id="L36">        Scanner sc = new Scanner(System.in);</span>
+        while(true){
+<span class="fc" id="L38">            System.out.println(&quot;Choose from following actions----&quot;);</span>
+<span class="fc" id="L39">            System.out.println(&quot;1. Register a course.&quot;);</span>
+<span class="fc" id="L40">            System.out.println(&quot;2. Deregister a course.&quot;);</span>
+<span class="fc" id="L41">            System.out.println(&quot;3. View grades.&quot;);</span>
+<span class="fc" id="L42">            System.out.println(&quot;4. Upload grades of a course.&quot;);</span>
+<span class="fc" id="L43">            System.out.println(&quot;5. Get academic curriculum .&quot;);</span>
+<span class="fc" id="L44">            System.out.println(&quot;6. Get course Catalog.&quot;);</span>
+<span class="fc" id="L45">            System.out.println(&quot;7. Change Phone number.&quot;);</span>
+<span class="fc" id="L46">            System.out.println(&quot;8. Change Password.&quot;);</span>
+<span class="fc" id="L47">            System.out.println(&quot;9. Quit.&quot;);</span>
+
+            String userChoice;
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            if(sc.hasNext()){</span>
+<span class="fc" id="L51">                userChoice=sc.nextLine();</span>
+            }
+            else{
+<span class="fc" id="L54">                userChoice=&quot;12&quot;;</span>
+            }
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            if(userChoice.trim().equals(&quot;1&quot;)){</span>
+<span class="fc" id="L57">                registerCourseParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;2&quot;)){</span>
+<span class="fc" id="L60">                deregisterCourseParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;3&quot;)){</span>
+<span class="fc" id="L63">                getGradesParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;4&quot;)){</span>
+<span class="fc" id="L66">                uploadGradeParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;5&quot;)){</span>
+<span class="fc" id="L69">                getAcademicCurriculumParser(connection);</span>
+            }
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;6&quot;)){</span>
+<span class="fc" id="L72">                getCourseCatalogParser(connection);</span>
+            }
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;7&quot;)){</span>
+<span class="fc" id="L75">                changePhoneNoParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;8&quot;)){</span>
+<span class="fc" id="L78">                changePasswordParser(connection,sc);</span>
+            }
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            else if(userChoice.trim().equals(&quot;9&quot;)){</span>
+<span class="fc" id="L81">                System.out.print(&quot;You successfully exited&quot;);</span>
+<span class="fc" id="L82">                break;</span>
+            }
+            else{
+<span class="fc" id="L85">                System.out.println(&quot;Invalid Choice!!!!&quot;);</span>
+<span class="fc" id="L86">                return false;</span>
+            }
+<span class="fc" id="L88">        }</span>
+<span class="fc" id="L89">        return true;</span>
+    }
+    public boolean registerCourseParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L92">        int currPhase=Main.getCurrPhase();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if(currPhase!=0){</span>
+<span class="fc" id="L94">            System.out.println(&quot;Action is not supported at this moment&quot;);</span>
+<span class="fc" id="L95">            return false;</span>
+        }
+<span class="fc" id="L97">        System.out.println(&quot;Enter the course Id you want to register&quot;);</span>
+<span class="fc" id="L98">        String courseId = sc.nextLine();</span>
+<span class="fc" id="L99">        FacultyController.registerCourse(connection,facultyId,courseId);</span>
+<span class="fc" id="L100">        return true;</span>
+    }
+    public boolean deregisterCourseParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L103">        int currPhase=Main.getCurrPhase();</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if(currPhase!=0){</span>
+<span class="fc" id="L105">            System.out.println(&quot;Action is not supported at this moment&quot;);</span>
+<span class="fc" id="L106">            return false;</span>
+        }
+<span class="fc" id="L108">        System.out.println(&quot;Enter the course Id you want to deregister&quot;);</span>
+<span class="fc" id="L109">        String courseId = sc.nextLine();</span>
+<span class="fc" id="L110">        FacultyController.deregisterCourse(connection,facultyId,courseId);</span>
+<span class="fc" id="L111">        return true;</span>
+    }
+    public boolean uploadGradeParser(Connection connection,Scanner sc) throws SQLException,IOException{
+<span class="fc" id="L114">        int currPhase=Main.getCurrPhase();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if(currPhase!=3){</span>
+<span class="fc" id="L116">            System.out.println(&quot;Action is not supported at this moment&quot;);</span>
+<span class="fc" id="L117">            return false;</span>
+        }
+<span class="fc" id="L119">        System.out.println(&quot;Enter the course Id for which you want to upload grade&quot;);</span>
+<span class="fc" id="L120">        String courseId = sc.nextLine();</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if(FacultyController.checkCourseByFacultyExist(connection,facultyId,courseId)){</span>
+<span class="fc" id="L122">            System.out.println(&quot;Enter file name&quot;);</span>
+<span class="fc" id="L123">            String fileName=sc.nextLine();</span>
+<span class="fc" id="L124">            System.out.println(&quot;Enter studentId, grade&quot;);</span>
+<span class="fc" id="L125">            String filePath=&quot;src/main/java/txtFiles/&quot;+fileName+&quot;.txt&quot;;</span>
+<span class="fc" id="L126">            File file = new File(filePath);</span>
+<span class="fc" id="L127">            BufferedReader br = new BufferedReader(new FileReader(file));</span>
+                String st;
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                while ((st = br.readLine()) != null){</span>
+<span class="fc" id="L130">                    String gradeUpload=st;</span>
+<span class="fc" id="L131">                    System.out.println(gradeUpload);</span>
+<span class="fc" id="L132">                    String[] gradeUploadSplit=gradeUpload.split(&quot;,&quot;);</span>
+<span class="fc" id="L133">                    FacultyController.uploadCourseGrade(connection,facultyId,courseId,gradeUploadSplit[0],gradeUploadSplit[1]);</span>
+<span class="fc" id="L134">                }</span>
+<span class="fc" id="L135">        }</span>
+        else{
+<span class="fc" id="L137">            System.out.println(&quot;Either course doesn't exist or you don't have permission to upload grades&quot;);</span>
+<span class="fc" id="L138">            return false;</span>
+        }
+<span class="fc" id="L140">        return true;</span>
+    }
+    public boolean getGradesParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L143">        System.out.println(&quot;Choose from the below option&quot;);</span>
+<span class="fc" id="L144">        System.out.println(&quot;1. View grades of student&quot;);</span>
+<span class="fc" id="L145">        System.out.println(&quot;2. View grades of a course&quot;);</span>
+<span class="fc" id="L146">        int userChoice = sc.nextInt();</span>
+<span class="fc" id="L147">        sc.nextLine();</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if(userChoice==1){</span>
+<span class="fc" id="L149">            System.out.println(&quot;Enter the student Id to view grades.&quot;);</span>
+<span class="fc" id="L150">            String studentId = sc.nextLine();</span>
+<span class="fc" id="L151">            FacultyController.getGradesByStudentId(connection,studentId);</span>
+<span class="fc" id="L152">        }</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">        else if(userChoice==2){</span>
+<span class="fc" id="L154">            System.out.println(&quot;Enter the course Id to view grades.&quot;);</span>
+<span class="fc" id="L155">            String courseId = sc.nextLine();</span>
+<span class="fc" id="L156">            System.out.println(&quot;Enter the year to view grades.&quot;);</span>
+<span class="fc" id="L157">            String year = sc.nextLine();</span>
+<span class="fc" id="L158">            System.out.println(&quot;Enter the semester to view grades.&quot;);</span>
+<span class="fc" id="L159">            String sem = sc.nextLine();</span>
+<span class="fc" id="L160">            FacultyController.getGradesByCourseId(connection,courseId,year,sem);</span>
+<span class="fc" id="L161">        }</span>
+        else{
+<span class="fc" id="L163">            System.out.println(&quot;Invalid Choice!!!&quot;);</span>
+<span class="fc" id="L164">            return false;</span>
+        }
+<span class="fc" id="L166">        return true;</span>
+    }
+    public void getAcademicCurriculumParser(Connection connection) throws SQLException,IOException{
+<span class="fc" id="L169">        System.out.println(&quot;Here is a complete academic curriculum&quot;);</span>
+<span class="fc" id="L170">        FacultyController.viewCompleteAcademicCurriculum(connection);</span>
+<span class="fc" id="L171">    }</span>
+    public void getCourseCatalogParser(Connection connection) throws SQLException, IOException {
+<span class="fc" id="L173">        System.out.println(&quot;Here is the course catalog.&quot;);</span>
+<span class="fc" id="L174">        FacultyController.getCourseCatalog(connection);</span>
+<span class="fc" id="L175">    }</span>
+    public void changePhoneNoParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L177">        System.out.println(&quot;Please enter new phone no.&quot;);</span>
+<span class="fc" id="L178">        String newPhoneNo = sc.nextLine();</span>
+<span class="fc" id="L179">        FacultyController.changePhoneNumber(connection,newPhoneNo,facultyId);</span>
+<span class="fc" id="L180">    }</span>
+    public void changePasswordParser(Connection connection,Scanner sc) throws SQLException{
+<span class="fc" id="L182">        System.out.println(&quot;Please enter new password.&quot;);</span>
+<span class="fc" id="L183">        String newPassword = sc.nextLine();</span>
+<span class="fc" id="L184">        FacultyController.changePassword(connection,newPassword,facultyEmail);</span>
+<span class="fc" id="L185">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

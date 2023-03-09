@@ -1,0 +1,10 @@
+year: semesterNo: courseId: ltpc: grade
+CS101:Discrete Math:5:CS:None
+CS102:DLD:5:CS:None
+CS201:DS:5:CS:None
+CS202:Paradigms:5:CS:None
+CS301:DB:5:CS:None
+CS302:ADA:5:CS:CS201
+CS401:BTP1:5:CS:None
+CS402:BTP2:5:CS:BTP1
+CS411:dummyElec:5:CS:CS410

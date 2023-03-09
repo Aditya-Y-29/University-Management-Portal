@@ -1,0 +1,5 @@
+JoiningYear: SemesterNo: CourseId: FacultyId: CgpaConstraint: CourseType: Department: Ltpc
+CS102:2:0:M:CS:5
+CS202:2:0:M:CS:5
+CS302:2:0:M:CS:5
+CS402:2:0:M:CS:5

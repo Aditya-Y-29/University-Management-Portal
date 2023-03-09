@@ -1,0 +1,6 @@
+courseId: Grade
+CS101:B
+CS102:A
+CS201:A-
+CS202:B
+CS301:B-

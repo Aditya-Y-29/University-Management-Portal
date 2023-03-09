@@ -1,0 +1,105 @@
+
+        //Student
+        String createStudentTableSQLCommand = "CREATE TABLE student " +
+                " (id INT ," +
+                " name VARCHAR(100), " +
+                " email VARCHAR(100) UNIQUE, " +
+                " phone_no VARCHAR(100), " +
+                " department VARCHAR(100), " +
+                " joining_year VARCHAR(100)," +
+                " PRIMARY KEY(id))";
+        Db.createTable(connection,createStudentTableSQLCommand);
+
+        //Faculty
+        String createFacultyTableSQLCommand = "CREATE TABLE faculty " +
+                "(id INT," +
+                " name VARCHAR(100), " +
+                " email VARCHAR(100) UNIQUE, " +
+                " phone_no VARCHAR(100), " +
+                " department VARCHAR(100)," +
+                " PRIMARY KEY(id))";
+        Db.createTable(connection,createFacultyTableSQLCommand);
+
+        //Academic Office
+        String createAcademicOfficeTableSQLCommand = "CREATE TABLE academic_office " +
+                "(id serial PRIMARY KEY ," +
+                " name VARCHAR(100), " +
+                " email VARCHAR(100) UNIQUE, " +
+                " phone_no VARCHAR(100))";
+        Db.createTable(connection,createAcademicOfficeTableSQLCommand);
+
+        //Student Login
+        String createStudentLoginTableSQLCommand = "CREATE TABLE student_login " +
+                "(email VARCHAR(100) UNIQUE," +
+                " password VARCHAR(100), " +
+                " PRIMARY KEY (email))";
+        Db.createTable(connection,createStudentLoginTableSQLCommand);
+
+        //Faculty Login
+        String createFacultyLoginTableSQLCommand = "CREATE TABLE faculty_login " +
+                "(email VARCHAR(100) UNIQUE," +
+                " password VARCHAR(100), " +
+                " PRIMARY KEY (email))";
+        Db.createTable(connection,createFacultyLoginTableSQLCommand);
+
+        //Academic Office
+        String createAcademicOfficeLoginTableSQLCommand = "CREATE TABLE academic_office_login " +
+                "(email VARCHAR(100) UNIQUE," +
+                " password VARCHAR(100), " +
+                " PRIMARY KEY (email))";
+        Db.createTable(connection,createAcademicOfficeLoginTableSQLCommand);
+
+        //Course Catalog
+        String createCourseCatalogSQLCommand = "CREATE TABLE course_catalog " +
+                " (course_id VARCHAR(100), " +
+                " course_name VARCHAR(100), " +
+                " l_t_p_c VARCHAR(100), " +
+                " department VARCHAR(100), " +
+                " pre_requisite VARCHAR(100), " +
+                " PRIMARY KEY (course_id))";
+        Db.createTable(connection,createCourseCatalogSQLCommand);
+
+        //Academic Curriculum, M for mandatory E for elective
+        String createAcademicCurriculumSQLCommand = "CREATE TABLE academic_curriculum " +
+                " (joining_year VARCHAR(100), " +
+                " semester_no VARCHAR(100), " +
+                " course_id VARCHAR(100), " +
+                " faculty_id INT, " +
+                " cgpa_constraint INT, "+
+                " course_type VARCHAR(100), " +
+                " department VARCHAR(100), " +
+                " l_t_p_c VARCHAR(100), " +
+                " PRIMARY KEY (joining_year,semester_no,department,course_id)," +
+                " CONSTRAINT fk_course_ac" +
+                " FOREIGN KEY (course_id) " +
+                " REFERENCES course_catalog (course_id))";
+        Db.createTable(connection,createAcademicCurriculumSQLCommand);
+
+        //Enrollment
+        String createEnrollmentSQLCommand = "CREATE TABLE enrollment " +
+                " (student_id INT, " +
+                " year VARCHAR(100), " +
+                " semester_no VARCHAR(100), " +
+                " course_id  VARCHAR(100), " +
+                " l_t_p_c  VARCHAR(100), " +
+                " grade VARCHAR(100)," +
+                " PRIMARY KEY (student_id,year,semester_no,course_id))";
+        Db.createTable(connection,createEnrollmentSQLCommand);
+
+        //Faculty Offers
+        String createFacultyOfferSQLCommand = "CREATE TABLE faculty_offer " +
+                " (faculty_id INT, " +
+                " year VARCHAR(100), " +
+                " semester_no VARCHAR(100), " +
+                " course_id  VARCHAR(100)," +
+                " CONSTRAINT fk_course_fo" +
+                " FOREIGN KEY (course_id) " +
+                " REFERENCES course_catalog (course_id))";
+        Db.createTable(connection,createFacultyOfferSQLCommand);
+
+        //passing criteria
+        String createPassingCriteriaTableSQLCommand = "CREATE TABLE passing_criteria " +
+                " (joining_year VARCHAR(100)," +
+                " minimum_credits VARCHAR(100), " +
+                " PRIMARY KEY (joining_year))";
+        Db.createTable(connection,createPassingCriteriaTableSQLCommand);

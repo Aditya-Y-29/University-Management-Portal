@@ -1,0 +1,4 @@
+Student name: stu5
+Joining year: 2018
+Department: CS
+2018:2:CS101:5:B

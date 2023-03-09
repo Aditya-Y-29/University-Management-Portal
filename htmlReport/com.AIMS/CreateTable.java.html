@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreateTable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JacocoReport Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.AIMS</a> &gt; <span class="el_source">CreateTable.java</span></div><h1>CreateTable.java</h1><pre class="source lang-java linenums">package com.AIMS;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+<span class="nc" id="L7">public class CreateTable {</span>
+    public static void createTables(Connection connection, DbConnect Db) throws SQLException, IOException {
+        //Student
+<span class="fc" id="L10">        String createStudentTableSQLCommand = &quot;CREATE TABLE student &quot; +</span>
+                &quot; (id INT ,&quot; +
+                &quot; name VARCHAR(100), &quot; +
+                &quot; email VARCHAR(100) UNIQUE, &quot; +
+                &quot; phone_no VARCHAR(100), &quot; +
+                &quot; department VARCHAR(100), &quot; +
+                &quot; joining_year VARCHAR(100),&quot; +
+                &quot; PRIMARY KEY(id))&quot;;
+<span class="fc" id="L18">        Db.createTable(connection,createStudentTableSQLCommand);</span>
+
+        //Faculty
+<span class="fc" id="L21">        String createFacultyTableSQLCommand = &quot;CREATE TABLE faculty &quot; +</span>
+                &quot;(id INT,&quot; +
+                &quot; name VARCHAR(100), &quot; +
+                &quot; email VARCHAR(100) UNIQUE, &quot; +
+                &quot; phone_no VARCHAR(100), &quot; +
+                &quot; department VARCHAR(100),&quot; +
+                &quot; PRIMARY KEY(id))&quot;;
+<span class="fc" id="L28">        Db.createTable(connection,createFacultyTableSQLCommand);</span>
+
+        //Academic Office
+<span class="fc" id="L31">        String createAcademicOfficeTableSQLCommand = &quot;CREATE TABLE academic_office &quot; +</span>
+                &quot;(id serial PRIMARY KEY ,&quot; +
+                &quot; name VARCHAR(100), &quot; +
+                &quot; email VARCHAR(100) UNIQUE, &quot; +
+                &quot; phone_no VARCHAR(100))&quot;;
+<span class="fc" id="L36">        Db.createTable(connection,createAcademicOfficeTableSQLCommand);</span>
+
+        //Student Login
+<span class="fc" id="L39">        String createStudentLoginTableSQLCommand = &quot;CREATE TABLE student_login &quot; +</span>
+                &quot;(email VARCHAR(100) UNIQUE,&quot; +
+                &quot; password VARCHAR(100), &quot; +
+                &quot; PRIMARY KEY (email))&quot;;
+<span class="fc" id="L43">        Db.createTable(connection,createStudentLoginTableSQLCommand);</span>
+
+        //Faculty Login
+<span class="fc" id="L46">        String createFacultyLoginTableSQLCommand = &quot;CREATE TABLE faculty_login &quot; +</span>
+                &quot;(email VARCHAR(100) UNIQUE,&quot; +
+                &quot; password VARCHAR(100), &quot; +
+                &quot; PRIMARY KEY (email))&quot;;
+<span class="fc" id="L50">        Db.createTable(connection,createFacultyLoginTableSQLCommand);</span>
+
+        //Academic Office
+<span class="fc" id="L53">        String createAcademicOfficeLoginTableSQLCommand = &quot;CREATE TABLE academic_office_login &quot; +</span>
+                &quot;(email VARCHAR(100) UNIQUE,&quot; +
+                &quot; password VARCHAR(100), &quot; +
+                &quot; PRIMARY KEY (email))&quot;;
+<span class="fc" id="L57">        Db.createTable(connection,createAcademicOfficeLoginTableSQLCommand);</span>
+
+        //Course Catalog
+<span class="fc" id="L60">        String createCourseCatalogSQLCommand = &quot;CREATE TABLE course_catalog &quot; +</span>
+                &quot; (course_id VARCHAR(100), &quot; +
+                &quot; course_name VARCHAR(100), &quot; +
+                &quot; l_t_p_c VARCHAR(100), &quot; +
+                &quot; department VARCHAR(100), &quot; +
+                &quot; pre_requisite VARCHAR(100), &quot; +
+                &quot; PRIMARY KEY (course_id))&quot;;
+<span class="fc" id="L67">        Db.createTable(connection,createCourseCatalogSQLCommand);</span>
+
+        //Academic Curriculum, M for mandatory E for elective
+<span class="fc" id="L70">        String createAcademicCurriculumSQLCommand = &quot;CREATE TABLE academic_curriculum &quot; +</span>
+                &quot; (joining_year VARCHAR(100), &quot; +
+                &quot; semester_no VARCHAR(100), &quot; +
+                &quot; course_id VARCHAR(100), &quot; +
+                &quot; faculty_id INT, &quot; +
+                &quot; cgpa_constraint INT, &quot;+
+                &quot; course_type VARCHAR(100), &quot; +
+                &quot; department VARCHAR(100), &quot; +
+                &quot; l_t_p_c VARCHAR(100), &quot; +
+                &quot; PRIMARY KEY (joining_year,semester_no,department,course_id),&quot; +
+                &quot; CONSTRAINT fk_course_ac&quot; +
+                &quot; FOREIGN KEY (course_id) &quot; +
+                &quot; REFERENCES course_catalog (course_id))&quot;;
+<span class="fc" id="L83">        Db.createTable(connection,createAcademicCurriculumSQLCommand);</span>
+
+        //Enrollment
+<span class="fc" id="L86">        String createEnrollmentSQLCommand = &quot;CREATE TABLE enrollment &quot; +</span>
+                &quot; (student_id INT, &quot; +
+                &quot; year VARCHAR(100), &quot; +
+                &quot; semester_no VARCHAR(100), &quot; +
+                &quot; course_id  VARCHAR(100), &quot; +
+                &quot; l_t_p_c  VARCHAR(100), &quot; +
+                &quot; grade VARCHAR(100),&quot; +
+                &quot; PRIMARY KEY (student_id,year,semester_no,course_id))&quot;;
+<span class="fc" id="L94">        Db.createTable(connection,createEnrollmentSQLCommand);</span>
+
+        //Faculty Offers
+<span class="fc" id="L97">        String createFacultyOfferSQLCommand = &quot;CREATE TABLE faculty_offer &quot; +</span>
+                &quot; (faculty_id INT, &quot; +
+                &quot; year VARCHAR(100), &quot; +
+                &quot; semester_no VARCHAR(100), &quot; +
+                &quot; course_id  VARCHAR(100),&quot; +
+                &quot; CONSTRAINT fk_course_fo&quot; +
+                &quot; FOREIGN KEY (course_id) &quot; +
+                &quot; REFERENCES course_catalog (course_id))&quot;;
+<span class="fc" id="L105">        Db.createTable(connection,createFacultyOfferSQLCommand);</span>
+
+        //passing criteria
+<span class="fc" id="L108">        String createPassingCriteriaTableSQLCommand = &quot;CREATE TABLE passing_criteria &quot; +</span>
+                &quot; (joining_year VARCHAR(100),&quot; +
+                &quot; minimum_credits VARCHAR(100), &quot; +
+                &quot; PRIMARY KEY (joining_year))&quot;;
+<span class="fc" id="L112">        Db.createTable(connection,createPassingCriteriaTableSQLCommand);</span>
+
+<span class="fc" id="L114">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
